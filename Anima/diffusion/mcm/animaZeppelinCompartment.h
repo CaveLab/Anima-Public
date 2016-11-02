@@ -50,6 +50,8 @@ public:
 
     const Matrix3DType &GetDiffusionTensor() ITK_OVERRIDE;
 
+    virtual double GetFractionalAnisotropy();
+
 protected:
     ZeppelinCompartment() : Superclass()
     {

@@ -44,6 +44,8 @@ public:
 
     const Matrix3DType &GetDiffusionTensor() ITK_OVERRIDE;
 
+    virtual double GetFractionalAnisotropy() {return 0;}
+
 protected:
     BaseIsotropicCompartment() : Superclass()
     {

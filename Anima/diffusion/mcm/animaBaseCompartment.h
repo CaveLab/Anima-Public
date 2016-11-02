@@ -118,6 +118,8 @@ public:
     double GetBoundedSignVectorValue(unsigned int i) {return m_BoundedSignVector[i];}
     void SetBoundedSignVectorValue(unsigned int i, double val) {m_BoundedSignVector[i] = val;}
 
+    virtual double GetFractionalAnisotropy() = 0;
+
 protected:
     BaseCompartment() : Superclass()
     {

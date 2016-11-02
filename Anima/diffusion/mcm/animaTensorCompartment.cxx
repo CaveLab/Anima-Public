@@ -479,6 +479,24 @@ const TensorCompartment::Matrix3DType &TensorCompartment::GetDiffusionTensor()
     return m_DiffusionTensor;
 }
 
+double TensorCompartment::GetFractionalAnisotropy()
+{
+    vnl_matrix <double> eVecs(m_SpaceDimension,m_SpaceDimension,0);
+    vnl_diag_matrix <double> eVals(m_SpaceDimension);
+
+    itk::SymmetricEigenAnalysis < Matrix3DType,vnl_diag_matrix <double>,vnl_matrix <double> > eigSys(m_SpaceDimension);
+
+    eigSys.ComputeEigenValues(m_DiffusionTensor,eVals);
+
+    double eig1 = eVals[2];
+    double eig2 = eVals[1];
+    double eig3 = eVals[0];
+
+    double fa = std::sqrt((std::pow(eig1 - eig2, 2)) + (std::pow(eig2 - eig3, 2)) + (std::pow(eig3 - eig1, 2)) /
+                          (2 * (eig1 * eig1 + eig2 * eig2 + eig3 * eig3)));
+    return fa;
+}
+
 void TensorCompartment::UpdateDiffusionTensor()
 {
     if (!m_ModifiedTensor)

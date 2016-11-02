@@ -305,5 +305,20 @@ const ZeppelinCompartment::Matrix3DType &ZeppelinCompartment::GetDiffusionTensor
     return m_DiffusionTensor;
 }
 
+double ZeppelinCompartment::GetFractionalAnisotropy()
+{
+    vnl_matrix <double> eVecs(m_SpaceDimension,m_SpaceDimension,0);
+    vnl_diag_matrix <double> eVals(m_SpaceDimension);
+
+    itk::SymmetricEigenAnalysis < Matrix3DType,vnl_diag_matrix <double>,vnl_matrix <double> > eigSys(m_SpaceDimension);
+
+    eigSys.ComputeEigenValues(m_DiffusionTensor,eVals);
+
+    double eig1 = eVals[2];
+    double eig2 = eVals[1];
+
+    double fa = (eig1 - eig2) / std::sqrt(eig1 * eig1 + 2 * eig2 * eig2);
+    return fa;
+}
 } //end namespace anima
 
